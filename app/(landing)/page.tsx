@@ -1,10 +1,15 @@
-import { Button } from '@/components/ui/button'
+import { LandingNavbar } from "@/components/landing-navbar";
+import { LandingHero } from "@/components/landing-hero";
+import { LandingContent } from "@/components/landing-content";
 
-export default function Home() {
-  return (
-    <>
-    <p className='text-6xl text-red-500'>Hello Ai-Saas </p>
-    <Button variant='destructive'>Click me</Button>
-    </>
-  )
+const LandingPage = () => {
+  return ( 
+    <div className="h-full ">
+      <LandingNavbar />
+      <LandingHero />
+      <LandingContent />
+    </div>
+   );
 }
+ 
+export default LandingPage;
