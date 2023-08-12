@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 const font = Montserrat({ weight: '600', subsets: ['latin'] });
 
 export const LandingNavbar : React.FC = () => {
-    const isSignedIn = true
+    const isSignedIn = false
 
   return (
     <nav className="p-4 bg-transparent flex items-center justify-between">
@@ -23,7 +23,7 @@ export const LandingNavbar : React.FC = () => {
         </h1>
       </Link>
       <div className="flex items-center gap-x-2">
-        <Link href={isSignedIn ? "/dashboard" : "/sign-up"}>
+        <Link href={isSignedIn ? "/dashboard" : "/login"}>
           <Button variant="outline" className="rounded-full">
             Get Started
           </Button>
