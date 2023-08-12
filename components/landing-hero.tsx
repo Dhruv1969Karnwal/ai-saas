@@ -5,7 +5,7 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 
-export const LandingHero = () => {
+export const LandingHero : React.FC = () => {
 
     // ?  add signed in functionality to check if user is signed in than go to dashboard otherwise go to login page
 const isSignedIn = false

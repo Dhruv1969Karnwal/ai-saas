@@ -13,10 +13,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import React from "react";
 
 
 
-export default function HomePage() {
+  const HomePage : React.FC  = () => {
   const router = useRouter();
 
   return (
@@ -82,3 +83,6 @@ export default function HomePage() {
     </div>
   );
 }
+
+
+export default HomePage

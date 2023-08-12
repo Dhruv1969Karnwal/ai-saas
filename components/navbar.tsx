@@ -28,7 +28,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-const Navbar = async () => {
+const Navbar : React.FC = async () => {
   return (
     <div className="flex items-center p-4">
       <MobileSidebar />

@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 
 const font = Montserrat({ weight: '600', subsets: ['latin'] });
 
-export const LandingNavbar = () => {
+export const LandingNavbar : React.FC = () => {
     const isSignedIn = true
 
   return (
