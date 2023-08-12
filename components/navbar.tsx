@@ -1,9 +1,13 @@
-import React from 'react'
 
-const navbar = () => {
-  return (
-    <div>navbar</div>
-  )
+import { MobileSidebar } from "@/components/mobile-sidebar";
+
+const Navbar = async () => {
+
+  return ( 
+    <div className="flex items-center p-4">
+      <MobileSidebar />
+    </div>
+   );
 }
-
-export default navbar
+ 
+export default Navbar;
