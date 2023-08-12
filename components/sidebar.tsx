@@ -36,7 +36,7 @@ interface ConversationItem {
 
 interface RouteItem {
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-  href?: string;
+  href: string;
   label: string;
   color?: string;
   more?: boolean;
@@ -95,7 +95,8 @@ const AccordionRouteLink: React.FC<AccordionRouteLinkProps> = ({
 }) => (
   <Link
     key={route.href}
-    href={route.href}
+    href={route.href === '/conversation' ? '/dashboard': route.href}
+    // router.href === "/"
     className={cn(
       "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer hover:text-white hover:bg-white/10 rounded-lg transition",
       {
@@ -160,7 +161,7 @@ export const Sidebar: React.FC = () => {
     {
       label: "Conversation",
       icon: MessagesSquare,
-      href: "",
+      href: "/conversation",
       color: "text-violet-500",
       more: true,
     },
