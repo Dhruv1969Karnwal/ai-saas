@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 const font = Montserrat({ weight: '600', subsets: ['latin'] });
 
 export const LandingNavbar = () => {
-    const isSignedIn = false
+    const isSignedIn = true
 
   return (
     <nav className="p-4 bg-transparent flex items-center justify-between">
