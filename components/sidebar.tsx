@@ -124,15 +124,15 @@ const AccordionRouteLink: React.FC<AccordionRouteLinkProps> = ({
 export const Sidebar: React.FC = () => {
   const pathname = usePathname();
 
-  const [isMounted, setIsMounted] = useState(false);
+  // const [isMounted, setIsMounted] = useState(false);
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  // useEffect(() => {
+  //   setIsMounted(true);
+  // }, []);
 
-  if (!isMounted) {
-    return null;
-  }
+  // if (!isMounted) {
+  //   return null;
+  // }
 
   const conversation: ConversationItem[] = [
     // conversation items
