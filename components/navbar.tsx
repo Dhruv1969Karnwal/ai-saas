@@ -11,11 +11,17 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { User } from "@prisma/client";
+import { signOut } from "next-auth/react";
 
 interface NavbarProps extends React.HTMLAttributes<HTMLDivElement> {
   user: Pick<User, "name" | "image" | "email">;
 }
 export function Navbar({ user }: NavbarProps) {
+  const handleSignOut = async () => {
+    await signOut({
+      callbackUrl: `${window.location.origin}/login`,
+    });
+  };
 
   return (
     <div className="flex items-center p-4">
@@ -52,6 +58,7 @@ export function Navbar({ user }: NavbarProps) {
             <DropdownMenuSeparator />
             <DropdownMenuItem
               className="cursor-pointer"
+              onClick={handleSignOut}
             >
               Sign out
             </DropdownMenuItem>
