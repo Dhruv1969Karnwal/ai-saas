@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icons } from "@/components/icons";
 import { useRouter } from "next/navigation";
+import { toast } from "@/components/ui/use-toast"
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -41,9 +42,18 @@ export function UserAuthFormRegister({
 
     try {
       await axios.post("/api/register", data);
-      
       router.push("/dashboard");
+      return toast({
+        title: "Redirecting to dashboard",
+        description: "We sent you a login link. Be sure to check your spam too.",
+        variant: "success"
+      })
     } catch (error) {
+      return toast({
+        title: "Something went wrong.",
+        description: "Your sign in request failed. Please try again.",
+        variant: "destructive",
+      })
       
     } finally {
       setIsLoading(false);

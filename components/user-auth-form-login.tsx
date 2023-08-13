@@ -12,7 +12,8 @@ import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icons } from "@/components/icons";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
+import { toast } from "@/components/ui/use-toast";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -30,24 +31,125 @@ export function UserAuthFormLogin({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [isGitHubLoading, setIsGitHubLoading] = React.useState<boolean>(false);
   const searchParams = useSearchParams();
+  const router = useRouter();
 
+  // const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
+  //   setIsLoading(true);
+
+  //   const signInResult = await signIn("credentials", {
+  //     ...data,
+  //     // redirect: false,
+  //     callbackUrl: searchParams?.get("from") || "/dashboard",
+  //   })
+  //     .then((callback) => {
+  //       setIsLoading(false);
+
+  //       if (callback?.ok) {
+  //         toast({
+  //           title: "redirect to dashboard page",
+  //           description:
+  //             "We sent you a login link. Be sure to check your spam too.",
+  //           variant: "success",
+  //         });
+  //       }
+
+  //       if (callback?.error) {
+  //         toast({
+  //           title: "Something went wrong.",
+  //           description: "Your sign in request failed. Please try again.",
+  //           variant: "destructive",
+  //         });
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       setIsLoading(false);
+  //       console.error("Sign-in error:", error);
+
+  //       toast({
+  //         title: "An error occurred.",
+  //         description: "There was an issue signing in. Please try again.",
+  //         variant: "destructive",
+  //       });
+  //     });
+
+  //   // console.log("signInResult",signInResult)
+  // };
 
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
-
     setIsLoading(true);
 
     const signInResult = await signIn("credentials", {
       ...data,
+      redirect: true,
       callbackUrl: searchParams?.get("from") || "/dashboard",
-    });
+    })
+      .then((callback) => {
+        setIsLoading(false);
 
-    setIsLoading(false);
+        
+        console.log("callback",callback?.ok)
 
-    if (!signInResult?.ok) {
-      
-    }
-    
+        if (callback?.ok) {
+          toast({
+            title: "Redirecting to the dashboard page",
+            description:
+              "We sent you a login link. Be sure to check your spam too.",
+            variant: "success",
+          });
+        }
+        if (callback?.error) {
+          toast({
+            title: "Something went wrong.",
+            description: "Your sign in request failed. Please try again.",
+            variant: "destructive",
+          });
+        }
+
+        // Delay the redirection slightly after showing the toast
+      //   setTimeout(() => {
+      //     window.location.href = "/dashboard";
+      //   }, 2000); // 2 seconds delay, adjust as needed
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        console.error("Sign-in error:", error);
+
+        toast({
+          title: "An error occurred.",
+          description: "There was an issue signing in. Please try again.",
+          variant: "destructive",
+        });
+      });
+
+      console.log("signInResult",signInResult)
   };
+
+  //   const signInResult = await signIn("credentials", {
+  //     ...data,
+  //     // callbackUrl: searchParams?.get("from") || "/dashboard",
+  //     redirect: false
+  //   });
+  //   console.log("After signIn call");
+  //   console.log("signInResult:", signInResult);
+
+  //   // console.log(signInResult?.ok)
+
+  //   setIsLoading(false);
+
+  //   if (!signInResult?.ok) {
+  //     return toast({
+  //       title: "Something went wrong.",
+  //       description: "Your sign in request failed. Please try again.",
+  //       variant: "destructive",
+  //     });
+  //   }
+
+  //   return toast({
+  //     title: "redirect to dashboard page",
+  //     description: "We sent you a login link. Be sure to check your spam too.",
+  //     variant: "success",
+  //   });
+  // };
 
   return (
     <div className={cn("grid gap-6", className)} {...props}>
