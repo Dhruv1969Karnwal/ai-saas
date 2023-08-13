@@ -19,6 +19,7 @@ import React from "react";
 
   const HomePage : React.FC  = () => {
   const router = useRouter();
+  // console.log("HomePage")
 
   return (
     <div>

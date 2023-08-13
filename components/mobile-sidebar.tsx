@@ -18,6 +18,8 @@ export const MobileSidebar: React.FC = () => {
     return null;
   }
 
+  console.log("MobileSidebar")
+
   return (
     <Sheet>
       <SheetTrigger>
