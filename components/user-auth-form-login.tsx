@@ -33,26 +33,29 @@ export function UserAuthFormLogin({ className, ...props }: UserAuthFormProps) {
   const searchParams = useSearchParams();
   const router = useRouter();
 
+
   // const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
   //   setIsLoading(true);
 
   //   const signInResult = await signIn("credentials", {
   //     ...data,
-  //     // redirect: false,
+  //     redirect: true,
   //     callbackUrl: searchParams?.get("from") || "/dashboard",
   //   })
   //     .then((callback) => {
   //       setIsLoading(false);
 
+        
+  //       console.log("callback",callback?.ok)
+
   //       if (callback?.ok) {
   //         toast({
-  //           title: "redirect to dashboard page",
+  //           title: "Redirecting to the dashboard page",
   //           description:
   //             "We sent you a login link. Be sure to check your spam too.",
   //           variant: "success",
   //         });
   //       }
-
   //       if (callback?.error) {
   //         toast({
   //           title: "Something went wrong.",
@@ -60,6 +63,11 @@ export function UserAuthFormLogin({ className, ...props }: UserAuthFormProps) {
   //           variant: "destructive",
   //         });
   //       }
+
+  //       // Delay the redirection slightly after showing the toast
+  //     //   setTimeout(() => {
+  //     //     window.location.href = "/dashboard";
+  //     //   }, 2000); // 2 seconds delay, adjust as needed
   //     })
   //     .catch((error) => {
   //       setIsLoading(false);
@@ -72,57 +80,65 @@ export function UserAuthFormLogin({ className, ...props }: UserAuthFormProps) {
   //       });
   //     });
 
-  //   // console.log("signInResult",signInResult)
+  //     console.log("signInResult",signInResult)
+  // };
+  // const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
+  //   setIsLoading(true)
+
+  //   const signInResult = await signIn("credentials", {
+  //     ...data,
+  //     redirect: false,
+  //     // callbackUrl: searchParams?.get("from") || "/dashboard",
+  //   })
+  //   console.log(signInResult)
+
+  //   setIsLoading(false)
+
+  //   if (!signInResult?.ok) {
+  //     return toast({
+  //       title: "Something went wrong.",
+  //       description: "Your sign in request failed. Please try again.",
+  //       variant: "destructive",
+  //     })
+  //   }
+
+  //   return toast({
+  //     title: "Check your email",
+  //     description: "We sent you a login link. Be sure to check your spam too.",
+  //   })
+    
   // };
 
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
     setIsLoading(true);
-
+  
     const signInResult = await signIn("credentials", {
       ...data,
-      redirect: true,
-      callbackUrl: searchParams?.get("from") || "/dashboard",
-    })
-      .then((callback) => {
-        setIsLoading(false);
-
-        
-        console.log("callback",callback?.ok)
-
-        if (callback?.ok) {
-          toast({
-            title: "Redirecting to the dashboard page",
-            description:
-              "We sent you a login link. Be sure to check your spam too.",
-            variant: "success",
-          });
-        }
-        if (callback?.error) {
-          toast({
-            title: "Something went wrong.",
-            description: "Your sign in request failed. Please try again.",
-            variant: "destructive",
-          });
-        }
-
-        // Delay the redirection slightly after showing the toast
-      //   setTimeout(() => {
-      //     window.location.href = "/dashboard";
-      //   }, 2000); // 2 seconds delay, adjust as needed
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        console.error("Sign-in error:", error);
-
-        toast({
-          title: "An error occurred.",
-          description: "There was an issue signing in. Please try again.",
-          variant: "destructive",
-        });
+      redirect: false,
+      // callbackUrl: searchParams?.get("from") || "/dashboard",
+    });
+  
+    console.log(signInResult);
+  
+    setIsLoading(false);
+  
+    if (signInResult?.ok) {
+      toast({
+        title: "Redirect to dashboard",
+        description: "We sent you to dashboard page.",
       });
-
-      console.log("signInResult",signInResult)
+  
+      // Redirect to the dashboard page
+      window.location.href = "/dashboard";
+    } else {
+      toast({
+        title: "Something went wrong.",
+        description: "Your sign in request failed. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
+  
 
   //   const signInResult = await signIn("credentials", {
   //     ...data,
