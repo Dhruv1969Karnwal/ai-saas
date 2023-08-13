@@ -1,20 +1,21 @@
-import Link from "next/link"
+"use client";
 
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
-import  UserAuthForm  from "@/components/user-auth-form"
-import { Icons } from "@/components/icons"
-import React from "react"
+import Link from "next/link";
+
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
+import { Icons } from "@/components/icons";
+import React, { useState } from "react";
+import { UserAuthFormRegister } from "@/components/user-auth-form-register";
 
 export const metadata = {
   title: "Create an account",
   description: "Create an account to get started.",
-}
+};
 
 const RegisterPage: React.FC = () => {
   return (
     <div className="container grid h-screen w-screen flex-col items-center justify-center lg:max-w-none lg:grid-cols-2 lg:px-0">
-
       <Link
         href="/login"
         className={cn(
@@ -36,7 +37,8 @@ const RegisterPage: React.FC = () => {
               Enter your email below to create your account
             </p>
           </div>
-          <UserAuthForm />
+          <UserAuthFormRegister />
+
           <p className="px-8 text-center text-sm text-muted-foreground">
             By clicking continue, you agree to our{" "}
             <Link
@@ -57,7 +59,7 @@ const RegisterPage: React.FC = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default RegisterPage
+export default RegisterPage;

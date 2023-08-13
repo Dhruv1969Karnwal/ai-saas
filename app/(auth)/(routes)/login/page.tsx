@@ -3,10 +3,9 @@ import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
-import  UserAuthForm from "@/components/user-auth-form";
+import {UserAuthFormLogin} from "@/components/user-auth-form-login";
 import { ChevronLeft } from "lucide-react";
 import React from "react";
-// import Image from "next/image"
 
 export const metadata: Metadata = {
   title: "Login",
@@ -39,7 +38,7 @@ const LoginPage: React.FC = () => {
               Enter your email to sign in to your account
             </p>
           </div>
-          <UserAuthForm />
+          <UserAuthFormLogin />
           <p className="px-8 text-center text-sm text-muted-foreground">
             <Link
               href="/register"

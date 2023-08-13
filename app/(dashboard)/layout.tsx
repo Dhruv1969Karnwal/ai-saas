@@ -1,6 +1,7 @@
 import ClientOnly from "@/components/clientOnly";
 import Navbar from "@/components/navbar";
 import { Sidebar } from "@/components/sidebar";
+import { Toaster } from "@/components/ui/toaster"
 
 const DashboardLayout = async ({
   children,
@@ -19,6 +20,7 @@ const DashboardLayout = async ({
         <Navbar />
         {children}
       </main>
+        <Toaster />
     </div>
    );
 }
