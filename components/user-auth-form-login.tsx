@@ -30,9 +30,8 @@ export function UserAuthFormLogin({ className, ...props }: UserAuthFormProps) {
 
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [isGitHubLoading, setIsGitHubLoading] = React.useState<boolean>(false);
-  const searchParams = useSearchParams();
+  const [isGoogleLoading, setIsGoogleLoading] = React.useState<boolean>(false);
   const router = useRouter();
-  const [redirect , setRedirect] = React.useState<boolean>(false);
 
 
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
@@ -41,10 +40,8 @@ export function UserAuthFormLogin({ className, ...props }: UserAuthFormProps) {
     const signInResult = await signIn("credentials", {
       ...data,
       redirect: false,
-      // callbackUrl:  "/dashboard",
     });
   
-    // console.log(signInResult);
   
     setIsLoading(false);
   
@@ -56,7 +53,6 @@ export function UserAuthFormLogin({ className, ...props }: UserAuthFormProps) {
   
       // Redirect to the dashboard page
       router.push("dashboard")
-      // setRedirect(true)
     } else {
       toast({
         title: "Something went wrong.",
@@ -65,23 +61,7 @@ export function UserAuthFormLogin({ className, ...props }: UserAuthFormProps) {
       });
     }
   };
-
-  // if(redirect){
-  //   router.push('/dashboard')
-  // }
   
-
-  const handleGoogleButtonClick = async () => {
-    setIsGitHubLoading(true);
-    try {
-      await signIn("google", {
-        callbackUrl: `${window.location.origin}/dashboard`,
-      });
-    } catch (error) {
-      // Handle error if needed
-    }
-    setIsGitHubLoading(false);
-  }
   return (
     <div className={cn("grid gap-6", className)} {...props}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -143,6 +123,23 @@ export function UserAuthFormLogin({ className, ...props }: UserAuthFormProps) {
           </span>
         </div>
       </div>
+      <div className="flex flex-col space-y-4">
+      <button
+        type="button"
+        className={cn(buttonVariants({ variant: "outline" }))}
+        onClick={() => {
+          setIsGoogleLoading(true);
+          signIn("google", { callbackUrl: "/dashboard" });
+        }}
+        disabled={isLoading || isGoogleLoading}
+      >
+        {isGoogleLoading ? (
+          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+        ) : (
+          <Icons.GoogleIcon className="mr-2 h-4 w-4" />
+        )}{" "}
+        Google
+      </button>
       <button
         type="button"
         className={cn(buttonVariants({ variant: "outline" }))}
@@ -159,22 +156,7 @@ export function UserAuthFormLogin({ className, ...props }: UserAuthFormProps) {
         )}{" "}
         Github
       </button>
-      <button
-        type="button"
-        className={cn(buttonVariants({ variant: "outline" }))}
-        onClick={() => {
-          setIsGitHubLoading(true);
-          signIn("google", { callbackUrl: "/dashboard" });
-        }}
-        disabled={isLoading || isGitHubLoading}
-      >
-        {isGitHubLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Icons.gitHub className="mr-2 h-4 w-4" />
-        )}{" "}
-        Google
-      </button>
+      </div>
     </div>
   );
 }

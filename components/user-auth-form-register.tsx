@@ -35,6 +35,7 @@ export function UserAuthFormRegister({
 
   const router = useRouter();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [isGoogleLoading, setIsGoogleLoading] = React.useState<boolean>(false);
   const [isGitHubLoading, setIsGitHubLoading] = React.useState<boolean>(false);
 
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
@@ -139,6 +140,23 @@ export function UserAuthFormRegister({
           </span>
         </div>
       </div>
+      <div className="flex flex-col space-y-4">
+      <button
+        type="button"
+        className={cn(buttonVariants({ variant: "outline" }))}
+        onClick={() => {
+          setIsGoogleLoading(true);
+          signIn("google", { callbackUrl: "/dashboard" });
+        }}
+        disabled={isLoading || isGoogleLoading}
+      >
+        {isGoogleLoading ? (
+          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+        ) : (
+          <Icons.GoogleIcon className="mr-2 h-4 w-4" />
+        )}{" "}
+        Google
+      </button>
       <button
         type="button"
         className={cn(buttonVariants({ variant: "outline" }))}
@@ -155,22 +173,7 @@ export function UserAuthFormRegister({
         )}{" "}
         Github
       </button>
-      <button
-        type="button"
-        className={cn(buttonVariants({ variant: "outline" }))}
-        onClick={() => {
-          setIsGitHubLoading(true);
-          signIn("google", { callbackUrl: "/dashboard" });
-        }}
-        disabled={isLoading || isGitHubLoading}
-      >
-        {isGitHubLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Icons.gitHub className="mr-2 h-4 w-4" />
-        )}{" "}
-        Google
-      </button>
+      </div>
     </div>
   );
 }
