@@ -10,13 +10,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { User } from "@prisma/client";
 import { signOut } from "next-auth/react";
+import { SafeUser } from "@/lib/safeUser";
 
-interface NavbarProps extends React.HTMLAttributes<HTMLDivElement> {
-  user: Pick<User, "name" | "image" | "email">;
+// interface NavbarProps extends React.HTMLAttributes<HTMLDivElement> {
+//   user: Pick<User, "name" | "image" | "email">;
+// }
+interface NavbarProps {
+  currentUser?: SafeUser | null;
 }
-export function Navbar({ user }: NavbarProps) {
+
+export function Navbar({ currentUser }: NavbarProps) {
   const handleSignOut = async () => {
     await signOut({
       callbackUrl: `${window.location.origin}/login`,
@@ -30,17 +34,17 @@ export function Navbar({ user }: NavbarProps) {
         <DropdownMenu>
           <DropdownMenuTrigger>
             <UserAvatar
-              user={{ name: user.name || null, image: user.image || null }}
+              user={{ name: currentUser?.name || null, image: currentUser?.image || null }}
               className="h-8 w-8"
             />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <div className="flex items-center justify-start gap-2 p-2">
               <div className="flex flex-col space-y-1 leading-none">
-                {user.name && <p className="font-medium">{user.name}</p>}
-                {user.email && (
+                {currentUser?.name && <p className="font-medium">{currentUser?.name}</p>}
+                {currentUser?.email && (
                   <p className="w-[200px] truncate text-sm text-muted-foreground">
-                    {user.email}
+                    {currentUser?.email}
                   </p>
                 )}
               </div>

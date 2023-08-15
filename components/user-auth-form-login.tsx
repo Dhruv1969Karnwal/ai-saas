@@ -32,82 +32,8 @@ export function UserAuthFormLogin({ className, ...props }: UserAuthFormProps) {
   const [isGitHubLoading, setIsGitHubLoading] = React.useState<boolean>(false);
   const searchParams = useSearchParams();
   const router = useRouter();
+  const [redirect , setRedirect] = React.useState<boolean>(false);
 
-
-  // const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
-  //   setIsLoading(true);
-
-  //   const signInResult = await signIn("credentials", {
-  //     ...data,
-  //     redirect: true,
-  //     callbackUrl: searchParams?.get("from") || "/dashboard",
-  //   })
-  //     .then((callback) => {
-  //       setIsLoading(false);
-
-        
-  //       console.log("callback",callback?.ok)
-
-  //       if (callback?.ok) {
-  //         toast({
-  //           title: "Redirecting to the dashboard page",
-  //           description:
-  //             "We sent you a login link. Be sure to check your spam too.",
-  //           variant: "success",
-  //         });
-  //       }
-  //       if (callback?.error) {
-  //         toast({
-  //           title: "Something went wrong.",
-  //           description: "Your sign in request failed. Please try again.",
-  //           variant: "destructive",
-  //         });
-  //       }
-
-  //       // Delay the redirection slightly after showing the toast
-  //     //   setTimeout(() => {
-  //     //     window.location.href = "/dashboard";
-  //     //   }, 2000); // 2 seconds delay, adjust as needed
-  //     })
-  //     .catch((error) => {
-  //       setIsLoading(false);
-  //       console.error("Sign-in error:", error);
-
-  //       toast({
-  //         title: "An error occurred.",
-  //         description: "There was an issue signing in. Please try again.",
-  //         variant: "destructive",
-  //       });
-  //     });
-
-  //     console.log("signInResult",signInResult)
-  // };
-  // const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
-  //   setIsLoading(true)
-
-  //   const signInResult = await signIn("credentials", {
-  //     ...data,
-  //     redirect: false,
-  //     // callbackUrl: searchParams?.get("from") || "/dashboard",
-  //   })
-  //   console.log(signInResult)
-
-  //   setIsLoading(false)
-
-  //   if (!signInResult?.ok) {
-  //     return toast({
-  //       title: "Something went wrong.",
-  //       description: "Your sign in request failed. Please try again.",
-  //       variant: "destructive",
-  //     })
-  //   }
-
-  //   return toast({
-  //     title: "Check your email",
-  //     description: "We sent you a login link. Be sure to check your spam too.",
-  //   })
-    
-  // };
 
   const onSubmit: SubmitHandler<FormSchemaType> = async (data) => {
     setIsLoading(true);
@@ -115,10 +41,10 @@ export function UserAuthFormLogin({ className, ...props }: UserAuthFormProps) {
     const signInResult = await signIn("credentials", {
       ...data,
       redirect: false,
-      // callbackUrl: searchParams?.get("from") || "/dashboard",
+      // callbackUrl:  "/dashboard",
     });
   
-    console.log(signInResult);
+    // console.log(signInResult);
   
     setIsLoading(false);
   
@@ -129,7 +55,8 @@ export function UserAuthFormLogin({ className, ...props }: UserAuthFormProps) {
       });
   
       // Redirect to the dashboard page
-      window.location.href = "/dashboard";
+      router.push("dashboard")
+      // setRedirect(true)
     } else {
       toast({
         title: "Something went wrong.",
@@ -138,35 +65,23 @@ export function UserAuthFormLogin({ className, ...props }: UserAuthFormProps) {
       });
     }
   };
+
+  // if(redirect){
+  //   router.push('/dashboard')
+  // }
   
 
-  //   const signInResult = await signIn("credentials", {
-  //     ...data,
-  //     // callbackUrl: searchParams?.get("from") || "/dashboard",
-  //     redirect: false
-  //   });
-  //   console.log("After signIn call");
-  //   console.log("signInResult:", signInResult);
-
-  //   // console.log(signInResult?.ok)
-
-  //   setIsLoading(false);
-
-  //   if (!signInResult?.ok) {
-  //     return toast({
-  //       title: "Something went wrong.",
-  //       description: "Your sign in request failed. Please try again.",
-  //       variant: "destructive",
-  //     });
-  //   }
-
-  //   return toast({
-  //     title: "redirect to dashboard page",
-  //     description: "We sent you a login link. Be sure to check your spam too.",
-  //     variant: "success",
-  //   });
-  // };
-
+  const handleGoogleButtonClick = async () => {
+    setIsGitHubLoading(true);
+    try {
+      await signIn("google", {
+        callbackUrl: `${window.location.origin}/dashboard`,
+      });
+    } catch (error) {
+      // Handle error if needed
+    }
+    setIsGitHubLoading(false);
+  }
   return (
     <div className={cn("grid gap-6", className)} {...props}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -233,7 +148,7 @@ export function UserAuthFormLogin({ className, ...props }: UserAuthFormProps) {
         className={cn(buttonVariants({ variant: "outline" }))}
         onClick={() => {
           setIsGitHubLoading(true);
-          signIn("github");
+          signIn("github", { callbackUrl: "/dashboard" });
         }}
         disabled={isLoading || isGitHubLoading}
       >
@@ -243,6 +158,22 @@ export function UserAuthFormLogin({ className, ...props }: UserAuthFormProps) {
           <Icons.gitHub className="mr-2 h-4 w-4" />
         )}{" "}
         Github
+      </button>
+      <button
+        type="button"
+        className={cn(buttonVariants({ variant: "outline" }))}
+        onClick={() => {
+          setIsGitHubLoading(true);
+          signIn("google", { callbackUrl: "/dashboard" });
+        }}
+        disabled={isLoading || isGitHubLoading}
+      >
+        {isGitHubLoading ? (
+          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+        ) : (
+          <Icons.gitHub className="mr-2 h-4 w-4" />
+        )}{" "}
+        Google
       </button>
     </div>
   );
