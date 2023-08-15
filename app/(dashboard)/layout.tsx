@@ -10,12 +10,11 @@ interface DashboardLayoutProps {
 
 const DashboardLayout = async ({ children }: DashboardLayoutProps) => {
 
-  // const user = await getCurrentUser()
   const currentUser = await getCurrentUser();
 
-  // if (!user) {
-  //   return notFound()
-  // }
+  if (!currentUser) {
+    return notFound()
+  }
   return (
     <div className="h-full relative">
       <div className="hidden h-full md:flex md:w-72 md:flex-col md:fixed md:inset-y-0 z-80 bg-gray-900">
@@ -32,7 +31,6 @@ const DashboardLayout = async ({ children }: DashboardLayoutProps) => {
           // }}
           currentUser={currentUser}
         />
-        {/* <Navbar /> */}
         {children}
       </main>
     </div>

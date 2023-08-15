@@ -4,13 +4,15 @@ import { Montserrat } from "next/font/google";
 import Image from "next/image"
 import Link from "next/link"
 
+
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useSession } from "next-auth/react"
 
 const font = Montserrat({ weight: '600', subsets: ['latin'] });
 
-export const LandingNavbar : React.FC = () => {
-    const isSignedIn = false
+export const LandingNavbar : React.FC =   () => {
+    const { data: session } = useSession()
 
   return (
     <nav className="p-4 bg-transparent flex items-center justify-between">
@@ -23,7 +25,7 @@ export const LandingNavbar : React.FC = () => {
         </h1>
       </Link>
       <div className="flex items-center gap-x-2">
-        <Link href={isSignedIn ? "/dashboard" : "/login"}>
+        <Link href={session?.user ? "/dashboard" : "/login"}>
           <Button variant="outline" className="rounded-full">
             Get Started
           </Button>

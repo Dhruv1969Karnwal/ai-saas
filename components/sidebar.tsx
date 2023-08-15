@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Montserrat } from "next/font/google";
@@ -48,12 +47,12 @@ interface ConversationItemProps {
 
 interface RouteLinkProps {
   route: RouteItem;
-  pathname: string;
+  pathname: string | null;
 }
 
 interface AccordionRouteLinkProps {
   route: RouteItem;
-  pathname: string;
+  pathname: string | null;
   conversation: ConversationItem[];
 }
 
@@ -96,7 +95,6 @@ const AccordionRouteLink: React.FC<AccordionRouteLinkProps> = ({
   <Link
     key={route.href}
     href={route.href === '/conversation' ? '/dashboard': route.href}
-    // router.href === "/"
     className={cn(
       "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer hover:text-white hover:bg-white/10 rounded-lg transition",
       {
@@ -124,18 +122,8 @@ const AccordionRouteLink: React.FC<AccordionRouteLinkProps> = ({
 export const Sidebar: React.FC = () => {
   const pathname = usePathname();
 
-  // const [isMounted, setIsMounted] = useState(false);
-
-  // useEffect(() => {
-  //   setIsMounted(true);
-  // }, []);
-
-  // if (!isMounted) {
-  //   return null;
-  // }
 
   const conversation: ConversationItem[] = [
-    // conversation items
     {
       icon: MessageSquare,
       href: "/conversation",
@@ -212,66 +200,6 @@ export const Sidebar: React.FC = () => {
             Genius
           </h1>
         </Link>
-        {/* <div className="space-y-1">
-          {routes.map((route) => (
-            <>
-              {route.more ? (
-                <Link
-                  key={route.href}
-                  href={route.href}
-                  className={cn(
-                    "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer hover:text-white hover:bg-white/10 rounded-lg transition",
-                    pathname === route.href
-                      ? "text-white bg-white/10"
-                      : "text-zinc-400"
-                  )}
-                >
-                  <Accordion type="single" collapsible className="w-full">
-                    <AccordionItem
-                      // className="flex items-center flex-1"
-                      value="item-1"
-                    >
-                      <AccordionTrigger>
-                        <div className="flex items-center flex-1">
-                          <route.icon
-                            className={cn("h-5 w-5 mr-3", route.color)}
-                          />
-                          {route.label}
-                        </div>
-                      </AccordionTrigger>
-                      {conversation.map((item) => (
-                        <AccordionContent key={item.label}>
-                          <div className="flex items-center flex-1">
-                            <item.icon
-                              className={cn("h-5 w-5 mr-3", item.color)}
-                            />
-                            {item.label}
-                          </div>
-                        </AccordionContent>
-                      ))}
-                    </AccordionItem>
-                  </Accordion>
-                </Link>
-              ) : (
-                <Link
-                  key={route.href}
-                  href={route.href}
-                  className={cn(
-                    "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer hover:text-white hover:bg-white/10 rounded-lg transition",
-                    pathname === route.href
-                      ? "text-white bg-white/10"
-                      : "text-zinc-400"
-                  )}
-                >
-                  <div className="flex items-center flex-1">
-                    <route.icon className={cn("h-5 w-5 mr-3", route.color)} />
-                    {route.label}
-                  </div>
-                </Link>
-              )}
-            </>
-          ))}
-        </div> */}
         <div className="space-y-1">
           {routes.map((route) =>
             route.more ? (

@@ -13,9 +13,6 @@ import {
 import { signOut } from "next-auth/react";
 import { SafeUser } from "@/lib/safeUser";
 
-// interface NavbarProps extends React.HTMLAttributes<HTMLDivElement> {
-//   user: Pick<User, "name" | "image" | "email">;
-// }
 interface NavbarProps {
   currentUser?: SafeUser | null;
 }
