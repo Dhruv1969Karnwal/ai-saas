@@ -1,3 +1,4 @@
+"use client"
 import { Metadata } from "next";
 import Link from "next/link";
 
@@ -5,7 +6,9 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import {UserAuthFormLogin} from "@/components/user-auth-form-login";
 import { ChevronLeft } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Login",
@@ -13,6 +16,15 @@ export const metadata: Metadata = {
 };
 
 const LoginPage: React.FC = () => {
+  const router = useRouter();
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    if (session) {
+      router.push('/dashboard');
+    }
+  }, [session, router]);
+  
   return (
     <div className="container flex h-screen w-screen flex-col items-center justify-center">
       <div className="shadow-2xl p-16 rounded-md">

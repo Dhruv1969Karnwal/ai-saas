@@ -5,8 +5,10 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { Icons } from "@/components/icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { UserAuthFormRegister } from "@/components/user-auth-form-register";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export const metadata = {
   title: "Create an account",
@@ -14,6 +16,14 @@ export const metadata = {
 };
 
 const RegisterPage: React.FC = () => {
+  const router = useRouter();
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    if (session) {
+      router.push('/dashboard');
+    }
+  }, [session, router]);
   return (
     <div className="container grid h-screen w-screen flex-col items-center justify-center lg:max-w-none lg:grid-cols-2 lg:px-0">
       <Link
