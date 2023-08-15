@@ -4,11 +4,11 @@ import TypewriterComponent from "typewriter-effect";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
+import { useSession } from "next-auth/react";
 
 export const LandingHero : React.FC = () => {
 
-    // ?  add signed in functionality to check if user is signed in than go to dashboard otherwise go to login page
-const isSignedIn = false
+    const { data: session } = useSession()
 
   return (
     <div className="text-white font-bold py-36 text-center space-y-5">
@@ -33,7 +33,7 @@ const isSignedIn = false
         Create content using AI 10x faster.
       </div>
       <div>
-        <Link href={isSignedIn ? "/dashboard" : "/login"}>
+        <Link href={session?.user ? "/dashboard" : "/login"}>
           <Button variant="premium" className="md:text-lg p-4 md:p-6 rounded-full font-semibold">
             Start Generating For Free
           </Button>

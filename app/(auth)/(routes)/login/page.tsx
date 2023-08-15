@@ -1,14 +1,15 @@
-"use client"
+"use client";
 import { Metadata } from "next";
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
-import {UserAuthFormLogin} from "@/components/user-auth-form-login";
+import { UserAuthFormLogin } from "@/components/user-auth-form-login";
 import { ChevronLeft } from "lucide-react";
 import React, { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Login",
@@ -21,10 +22,10 @@ const LoginPage: React.FC = () => {
 
   useEffect(() => {
     if (session) {
-      router.push('/dashboard');
+      router.push("/dashboard");
     }
   }, [session, router]);
-  
+
   return (
     <div className="container flex h-screen w-screen flex-col items-center justify-center">
       <div className="shadow-2xl p-16 rounded-md">
@@ -42,7 +43,7 @@ const LoginPage: React.FC = () => {
         </Link>
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
           <div className="flex flex-col space-y-2 text-center">
-            {/* <Image fill alt="Logo" src="/logo.png" className=""/> */}
+            <Image  alt="Logo" src="/logo.png" className="mx-auto " width={24} height={24}  />
             <h1 className="text-2xl font-semibold tracking-tight">
               Welcome back
             </h1>
