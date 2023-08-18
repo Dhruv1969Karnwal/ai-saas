@@ -24,6 +24,7 @@ export function Navbar({ currentUser }: NavbarProps) {
     });
   };
 
+
   return (
     <div className="flex items-center p-4">
       <MobileSidebar />

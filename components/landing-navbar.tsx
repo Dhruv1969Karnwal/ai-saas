@@ -9,10 +9,12 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react"
 
+
 const font = Montserrat({ weight: '600', subsets: ['latin'] });
 
 export const LandingNavbar : React.FC =   () => {
     const { data: session } = useSession()
+    // console.log(session)
 
   return (
     <nav className="p-4 bg-transparent flex items-center justify-between">

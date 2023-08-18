@@ -75,6 +75,7 @@ const ConversationPage = () => {
             </form>
           </Form>
         </div>
+        <div>message content</div>
       </div>
     </div>
    );
