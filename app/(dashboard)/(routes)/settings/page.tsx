@@ -13,7 +13,7 @@ const SettingsPage = async () => {
         iconColor="text-gray-700"
         bgColor="bg-gray-700/10"
       />
-      <div className="px-4 lg:px-8 space-y-4">
+      <div className="px-4  lg:px-8 space-y-4">
       </div>
     </div>
    );
