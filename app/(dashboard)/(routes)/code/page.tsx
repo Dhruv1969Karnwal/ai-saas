@@ -1,8 +1,11 @@
 "use client";
 
 import * as z from "zod";
+import axios from "axios";
 import { Code } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { ChatCompletionRequestMessage } from "openai";
 
 import { Heading } from "@/components/heading";
 import { Button } from "@/components/ui/button";
@@ -11,8 +14,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 
 import { formSchema } from "./constants";
+import { useState } from "react";
 
 const CodePage = () => {
+
+  const router = useRouter();
+  const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -24,7 +31,20 @@ const CodePage = () => {
   const isLoading = form.formState.isSubmitting;
   
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      const userMessage: ChatCompletionRequestMessage = { role: "user", content: values.prompt };
+      const newMessages = [...messages, userMessage];
+      
+      const response = await axios.post('/api/code', { messages: newMessages });
+      setMessages((current) => [...current, userMessage, response.data]);
+      
+      form.reset();
+    } catch (error: any) {
+    } finally {
+      router.refresh();
+    }
   }
+
 
   return ( 
     <div>
