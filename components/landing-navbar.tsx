@@ -14,8 +14,7 @@ const font = Montserrat({ weight: '600', subsets: ['latin'] });
 
 export const LandingNavbar : React.FC =   () => {
     const { data: session } = useSession()
-    // console.log(session)
-
+    
   return (
     <nav className="p-4 bg-transparent flex items-center justify-between">
       <Link href="/" className="flex items-center">

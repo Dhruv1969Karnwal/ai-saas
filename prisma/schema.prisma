@@ -23,15 +23,13 @@ model Account {
   scope             String?
   id_token          String?  @db.String
   session_state     String?
-  // createdAt         DateTime @default(now()) @map("created_at")
-  // updatedAt         DateTime @updatedAt @map("updated_at")
-  createdAt         DateTime @default(now()) 
-  updatedAt         DateTime @updatedAt 
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
-  // @@map(name: "accounts")
+  @@map(name: "accounts")
 }
 
 
@@ -61,5 +59,5 @@ model User {
   accounts       Account[]
   // Session        Session[]
 
-  // @@map(name: "users")
+  @@map(name: "users")
 }
