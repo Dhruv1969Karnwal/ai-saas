@@ -4,10 +4,11 @@ import * as z from "zod";
 import axios from "axios";
 import { MessageSquare } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ChatCompletionRequestMessage } from "openai";
 
+import { BotAvatar } from "@/components/bot-avatar";
 import { Heading } from "@/components/heading";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,12 +16,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { Loader } from "@/components/loader";
+import { UserAvatar } from "@/components/user-avatar";
 import { Empty } from "@/components/ui/empty";
 import { formSchema } from "./constants";
 import { useSession } from "next-auth/react";
 
 const ConversationPage =   () => {
 
+
+  const { data: session } = useSession()
 
   const router = useRouter();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
@@ -127,6 +131,13 @@ const ConversationPage =   () => {
                     : "bg-muted"
                 )}
               >
+                {message.role === "user" ? (
+                  <UserAvatar user={{ name: session?.user?.name || null, image: session?.user?.image || null }}
+                  className="h-8 w-8"
+                  />
+                ) : (
+                  <BotAvatar />
+                )}
                 <p className="text-sm">{message.content}</p>
               </div>
             ))}
