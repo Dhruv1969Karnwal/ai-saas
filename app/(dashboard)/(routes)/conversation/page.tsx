@@ -1,9 +1,10 @@
 "use client";
 
-import axios from "axios";
 import * as z from "zod";
+import axios from "axios";
 import { MessageSquare } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ChatCompletionRequestMessage } from "openai";
 
@@ -12,12 +13,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import { cn } from "@/lib/utils";
+import { UserAvatar } from "@/components/user-avatar";
 
 import { formSchema } from "./constants";
-import { useState } from "react";
 
 const ConversationPage = () => {
-
   const router = useRouter();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
 
@@ -42,14 +43,12 @@ const ConversationPage = () => {
     } catch (error: any) {
       if (error?.response?.status === 403) {
       } else {
-
+        // toaster will show error message
       }
     } finally {
       router.refresh();
     }
   }
-
-  // console.log(messages)
 
   return ( 
     <div>
@@ -99,7 +98,23 @@ const ConversationPage = () => {
             </form>
           </Form>
         </div>
-        <div>message content</div>
+        <div className="space-y-4 mt-4">
+          <div className="flex flex-col-reverse gap-y-4">
+            {messages.map((message) => (
+              <div 
+                key={message.content} 
+                className={cn(
+                  "p-8 w-full flex items-start gap-x-8 rounded-lg",
+                  message.role === "user" ? "bg-white border border-black/10" : "bg-muted",
+                )}
+              >
+                <p className="text-sm">
+                  {message.content}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
    );
