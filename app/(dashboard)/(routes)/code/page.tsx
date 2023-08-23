@@ -15,38 +15,40 @@ import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 
 import { formSchema } from "./constants";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 const CodePage = () => {
-
   const router = useRouter();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      prompt: ""
-    }
+      prompt: "",
+    },
   });
 
   const isLoading = form.formState.isSubmitting;
-  
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const userMessage: ChatCompletionRequestMessage = { role: "user", content: values.prompt };
+      const userMessage: ChatCompletionRequestMessage = {
+        role: "user",
+        content: values.prompt,
+      };
       const newMessages = [...messages, userMessage];
-      
-      const response = await axios.post('/api/code', { messages: newMessages });
+
+      const response = await axios.post("/api/code", { messages: newMessages });
       setMessages((current) => [...current, userMessage, response.data]);
-      
+
       form.reset();
     } catch (error: any) {
     } finally {
       router.refresh();
     }
-  }
+  };
 
-
-  return ( 
+  return (
     <div>
       <Heading
         title="Code Generation"
@@ -58,8 +60,8 @@ const CodePage = () => {
       <div className="px-4 lg:px-8">
         <div>
           <Form {...form}>
-            <form 
-              onSubmit={form.handleSubmit(onSubmit)} 
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
               className="
                 rounded-lg 
                 border 
@@ -80,25 +82,43 @@ const CodePage = () => {
                     <FormControl className="m-0 p-0">
                       <Input
                         className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
-                        disabled={isLoading} 
-                        placeholder="Simple toggle button using react hooks." 
+                        disabled={isLoading}
+                        placeholder="Simple toggle button using react hooks."
                         {...field}
                       />
                     </FormControl>
                   </FormItem>
                 )}
               />
-              <Button className="col-span-12 lg:col-span-2 w-full" type="submit" disabled={isLoading} size="icon">
+              <Button
+                className="col-span-12 lg:col-span-2 w-full"
+                type="submit"
+                disabled={isLoading}
+                size="icon"
+              >
                 Generate
               </Button>
             </form>
           </Form>
         </div>
-        <div className="space-y-4 mt-4">
+        <div className="flex flex-col-reverse gap-y-4">
+          {messages.map((message) => (
+            <div
+              key={message.content}
+              className={cn(
+                "p-8 w-full flex items-start gap-x-8 rounded-lg",
+                message.role === "user"
+                  ? "bg-white border border-black/10"
+                  : "bg-muted"
+              )}
+            >
+              <p className="text-sm">{message.content}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>
-   );
-}
- 
+  );
+};
+
 export default CodePage;
