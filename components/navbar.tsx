@@ -17,6 +17,8 @@ interface NavbarProps {
   currentUser?: SafeUser | null;
 }
 
+
+
 export function Navbar({ currentUser }: NavbarProps) {
   const handleSignOut = async () => {
     await signOut({

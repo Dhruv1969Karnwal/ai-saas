@@ -28,6 +28,7 @@ export default async function getCurrentUser() {
     return {
       ...currentUser,
       userId: currentUser.id,
+      image: currentUser.image,
       createdAt: currentUser.createdAt.toISOString(),
       updatedAt: currentUser.updatedAt.toISOString(),
       emailVerified: 

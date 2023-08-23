@@ -8,4 +8,5 @@ export type SafeUser = Omit<
   updatedAt: string;
   emailVerified: string | null;
   userId: string | null;
+  image: string | null;
 };
