@@ -4,23 +4,27 @@ import * as z from "zod";
 import axios from "axios";
 import { Code } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+import ReactMarkdown from "react-markdown";
 import { useRouter } from "next/navigation";
 import { ChatCompletionRequestMessage } from "openai";
-import ReactMarkdown from "react-markdown";
 
+import { BotAvatar } from "@/components/bot-avatar";
 import { Heading } from "@/components/heading";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-
-import { formSchema } from "./constants";
-import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Loader } from "@/components/loader";
+import { UserAvatar } from "@/components/user-avatar";
 import { Empty } from "@/components/ui/empty";
 
+import { formSchema } from "./constants";
+import { useSession } from "next-auth/react";
+
 const CodePage = () => {
+  const { data: session } = useSession()
   const router = useRouter();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
 
@@ -113,32 +117,48 @@ const CodePage = () => {
           {messages.length === 0 && !isLoading && (
             <Empty label="No conversation started." />
           )}
-        <div className="flex flex-col-reverse gap-y-4">
-        {messages.map((message) => (
-              <div 
-                key={message.content} 
+          <div className="flex flex-col-reverse gap-y-4">
+            {messages.map((message) => (
+              <div
+                key={message.content}
                 className={cn(
                   "p-8 w-full flex items-start gap-x-8 rounded-lg",
-                  message.role === "user" ? "bg-white border border-black/10" : "bg-muted",
+                  message.role === "user"
+                    ? "bg-white border border-black/10"
+                    : "bg-muted"
                 )}
               >
-                <ReactMarkdown components={{
-                  pre: ({ node, ...props }) => (
-                    <div className="overflow-auto w-full my-2 bg-black/10 p-2 rounded-lg">
-                      <pre {...props} />
-                    </div>
-                  ),
-                  code: ({ node, ...props }) => (
-                    <code className="bg-black/10 rounded-lg p-1" {...props} />
-                  )
-                }} className="text-sm overflow-hidden leading-7">
+                {message.role === "user" ? (
+                  <UserAvatar
+                    user={{
+                      name: session?.user?.name || null,
+                      image: session?.user?.image || null,
+                    }}
+                    className="h-8 w-8"
+                  />
+                ) : (
+                  <BotAvatar />
+                )}
+                <ReactMarkdown
+                  components={{
+                    pre: ({ node, ...props }) => (
+                      <div className="overflow-auto w-full my-2 bg-black/10 p-2 rounded-lg">
+                        <pre {...props} />
+                      </div>
+                    ),
+                    code: ({ node, ...props }) => (
+                      <code className="bg-black/10 rounded-lg p-1" {...props} />
+                    ),
+                  }}
+                  className="text-sm overflow-hidden leading-7"
+                >
                   {message.content || ""}
                 </ReactMarkdown>
               </div>
             ))}
+          </div>
         </div>
       </div>
-    </div>
     </div>
   );
 };
