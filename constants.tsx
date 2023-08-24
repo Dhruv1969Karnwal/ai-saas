@@ -1,4 +1,4 @@
-import { Code, ImageIcon, MessagesSquare, Music, VideoIcon, Plus, MessageSquare } from "lucide-react";
+import { Code, ImageIcon, MessagesSquare, Music, VideoIcon, Plus, MessageSquare, Home } from "lucide-react";
 
 export const MAX_FREE_COUNTS = 5;
 
@@ -13,17 +13,24 @@ interface ConToolItem {
 export const conTools : ConToolItem[] = [
       {
         label: "Companion-ai",
-        icon: MessageSquare,
-        href: "/conversation",
+        icon: Home,
+        href: "/companion-ai",
         color: "text-gray-500",
         bgColor: "bg-gray-500/10",
       },
       {
         label: "Create",
         icon: Plus,
-        href: "/companion/new",
+        href: "/companion/64e78d5a11dac7dddfb88888",
         color: "text-red-500",
         bgColor: "bg-red-500/10",
+      },
+      {
+        label: "Conversation",
+        icon: MessageSquare,
+        href: "/conversation",
+        color: "text-gray-500",
+        bgColor: "bg-gray-500/10",
       },
 ]
 

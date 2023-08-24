@@ -13,6 +13,7 @@ import {
   Settings,
   VideoIcon,
   Plus,
+  Home,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import {
@@ -125,16 +126,23 @@ export const Sidebar: React.FC = () => {
 
   const conversation: ConversationItem[] = [
     {
-      icon: MessageSquare,
-      href: "/conversation",
+      icon: Home,
+      href: "/companion-ai",
       label: "Companion-ai",
-      color: "text-gray-800",
+      color: "text-gray-600",
     },
     {
       icon: Plus,
-      href: "/companion/new",
+      // ? make it companion/new 
+      href: "/companion/64e78d5a11dac7dddfb88888",
       label: "Create",
       color: "text-red-500",
+    },
+    {
+      icon: MessageSquare,
+      href: "/conversation",
+      label: "Conversation",
+      color: "text-purple-800",
     },
   ];
 
