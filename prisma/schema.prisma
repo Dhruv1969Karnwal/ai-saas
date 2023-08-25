@@ -83,11 +83,35 @@ model Companion {
   category      Category @relation(fields: [categoryId], references: [id])
   categoryId    String @db.ObjectId
 
+  messages      Message[]
+
 
   @@index([categoryId])
   @@fulltext([name])
 
   @@map(name: "companion")
+}
+
+enum Role {
+  user
+  system
+}
+
+model Message {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  role        Role   
+  content     String   @db.String
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  companionId String @db.ObjectId
+  userId      String
+
+  companion   Companion @relation(fields: [companionId], references: [id], onDelete: Cascade)
+  
+  @@index([companionId])
+
+  @@map(name: "message")
 }
 
 
