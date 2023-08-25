@@ -1,4 +1,6 @@
 import getCurrentUser from "@/lib/session";
+import prisma from "@/lib/db"
+import { CompanionForm } from "./components/companion-form";
 
 
 
@@ -14,8 +16,16 @@ const CompanionIdPage = async ({
     const currentUser = await getCurrentUser()
     const userId = currentUser?.userId
 
+    const companion = await prisma.companion.findUnique({
+        where: {
+          id: params.companionId,
+        }
+      });
+    
+      const categories = await prisma.category.findMany();
+
   return ( 
-    <div>{userId}</div>
+     <CompanionForm initialData={companion} categories={categories} />
   );
 }
  
