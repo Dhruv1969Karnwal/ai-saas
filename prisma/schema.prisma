@@ -59,4 +59,31 @@ model User {
 }
 
 
+model Category {
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  companions    Companion[]
+}
+
+model Companion {
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String
+  userName      String
+  src           String
+  name          String @db.String
+  description   String
+  instructions  String @db.String
+  seed          String @db.String
+
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  category      Category @relation(fields: [categoryId], references: [id])
+  categoryId    String @db.ObjectId
+
+
+  @@index([categoryId])
+  @@fulltext([name])
+}
+
 
