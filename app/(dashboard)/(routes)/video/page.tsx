@@ -1,32 +1,55 @@
 "use client";
 
 import * as z from "zod";
+import axios from "axios";
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 import { FileAudio } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 import { Heading } from "@/components/heading";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import { Loader } from "@/components/loader";
+import { Empty } from "@/components/ui/empty";
 
 import { formSchema } from "./constants";
 
 const VideoPage = () => {
+  const router = useRouter();
+  const [video, setVideo] = useState<string>();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       prompt: "",
-    }
+    },
   });
 
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-  }
+    try {
+      setVideo(undefined);
 
-  return ( 
+      const response = await axios.post("/api/video", values);
+
+      setVideo(response.data[0]);
+      form.reset();
+    } catch (error: any) {
+      if (error?.response?.status === 403) {
+      } else {
+        toast.error("Something went wrong.");
+      }
+    } finally {
+      router.refresh();
+    }
+  };
+
+  return (
     <div>
       <Heading
         title="Video Generation"
@@ -37,8 +60,8 @@ const VideoPage = () => {
       />
       <div className="px-4 lg:px-8">
         <Form {...form}>
-          <form 
-            onSubmit={form.handleSubmit(onSubmit)} 
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
             className="
               rounded-lg 
               border 
@@ -59,22 +82,41 @@ const VideoPage = () => {
                   <FormControl className="m-0 p-0">
                     <Input
                       className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
-                      disabled={isLoading} 
-                      placeholder="Clown fish swimming in a coral reef" 
+                      disabled={isLoading}
+                      placeholder="Clown fish swimming in a coral reef"
                       {...field}
                     />
                   </FormControl>
                 </FormItem>
               )}
             />
-            <Button className="col-span-12 lg:col-span-2 w-full" type="submit" disabled={isLoading} size="icon">
+            <Button
+              className="col-span-12 lg:col-span-2 w-full"
+              type="submit"
+              disabled={isLoading}
+              size="icon"
+            >
               Generate
             </Button>
           </form>
         </Form>
+        {isLoading && (
+          <div className="p-20">
+            <Loader />
+          </div>
+        )}
+        {!video && !isLoading && <Empty label="No video files generated." />}
+        {video && (
+          <video
+            controls
+            className="w-full aspect-video mt-8 rounded-lg border bg-black"
+          >
+            <source src={video} />
+          </video>
+        )}
       </div>
     </div>
-   );
-}
- 
+  );
+};
+
 export default VideoPage;
