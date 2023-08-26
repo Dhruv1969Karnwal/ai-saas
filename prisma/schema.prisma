@@ -58,37 +58,34 @@ model User {
   @@map(name: "users")
 }
 
-
 model Category {
-  id            String  @id @default(auto()) @map("_id") @db.ObjectId
-  name          String
-  companions    Companion[]
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  companions Companion[]
 
   @@map(name: "category")
 }
 
 model Companion {
-  id            String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId        String  
-  userName      String
-  src           String
-  name          String @db.String
-  description   String
-  instructions  String @db.String
-  seed          String @db.String
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  userId       String
+  userName     String
+  src          String
+  name         String @db.String
+  description  String
+  instructions String @db.String
+  seed         String @db.String
 
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-  category      Category @relation(fields: [categoryId], references: [id])
-  categoryId    String @db.ObjectId
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String   @db.ObjectId
 
-  messages      Message[]
-
+  messages Message[]
 
   @@index([categoryId])
   @@fulltext([name])
-
   @@map(name: "companion")
 }
 
@@ -98,29 +95,27 @@ enum Role {
 }
 
 model Message {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  role        Role   
-  content     String   @db.String
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  role      Role
+  content   String   @db.String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   companionId String @db.ObjectId
   userId      String
 
-  companion   Companion @relation(fields: [companionId], references: [id], onDelete: Cascade)
-  
-  @@index([companionId])
+  companion Companion @relation(fields: [companionId], references: [id], onDelete: Cascade)
 
+  @@index([companionId])
   @@map(name: "message")
 }
 
-
 model UserApiLimit {
-  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   userId    String   @unique
   count     Int      @default(0)
   createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt  @map("updated_at")
-  
+  updatedAt DateTime @updatedAt @map("updated_at")
+
   @@map(name: "userApiLimit")
 }
