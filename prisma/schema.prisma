@@ -69,7 +69,7 @@ model Category {
 
 model Companion {
   id            String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId        String
+  userId        String  
   userName      String
   src           String
   name          String @db.String

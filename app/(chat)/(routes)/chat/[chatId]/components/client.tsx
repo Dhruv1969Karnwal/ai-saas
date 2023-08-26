@@ -15,7 +15,11 @@ interface ChatClientProps {
 export const ChatClient = ({
   companion,
 }: ChatClientProps) => {
-  console.log(companion)
+  // console.log(companion.userId)
+  // const type = typeof companion.userId
+  // console.log(type)
+
+  
 
   return (
     <div className="flex flex-col h-full p-4 space-y-2">

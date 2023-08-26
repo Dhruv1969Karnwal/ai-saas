@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import getCurrentUser from "@/lib/session";
 import prisma from "@/lib/db"
 import { CompanionForm } from "./components/companion-form";
@@ -16,11 +17,19 @@ const CompanionIdPage = async ({
     const currentUser = await getCurrentUser()
     const userId = currentUser?.userId
 
+      const userIdType = typeof userId;
+
+    if (!userId) {
+      return redirect("/");
+    }
+
     const companion = await prisma.companion.findUnique({
-        where: {
-          id: params.companionId,
-        }
-      });
+      where: {
+        id: params.companionId,
+        // ? userId must be added 
+        // userId
+      }
+    });
     
       const categories = await prisma.category.findMany();
 

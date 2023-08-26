@@ -49,3 +49,28 @@ export async function PATCH(
   }
 };
 
+
+export async function DELETE(
+  request: Request,
+  { params }: { params: { companionId: string } }
+) {
+  try {
+    const currentUser = await getCurrentUser()
+    const userId = currentUser?.userId;
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    const companion = await prisma.companion.delete({
+      where: {
+        // userId,
+        id: params.companionId
+      }
+    });
+
+    return NextResponse.json(companion);
+  } catch (error) {
+    console.log("[COMPANION_DELETE]", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+};
