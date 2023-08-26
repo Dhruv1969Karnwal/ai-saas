@@ -1,5 +1,8 @@
 "use client";
 
+import { BeatLoader } from "react-spinners";
+
+
 import { Copy } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -23,7 +26,6 @@ export const ChatMessage = ({
   src,
 }: ChatMessageProps) => {
 
-    // const currentUser = await getCurrentUser()
     const {data: session} = useSession()
   return (
     <div
@@ -34,7 +36,7 @@ export const ChatMessage = ({
     >
       {role !== "user" && src && <ChatBotAvatar src={src} />}
       <div className="rounded-md px-4 py-2 max-w-sm text-sm bg-primary/10">
-        {isLoading ? "Loading ..." : content}
+        {isLoading ? <BeatLoader  size={5} /> : content}
       </div>
       {role === "user" && (
         <UserAvatar
