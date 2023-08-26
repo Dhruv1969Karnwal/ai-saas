@@ -2,7 +2,6 @@
 
 import { BeatLoader } from "react-spinners";
 
-
 import { Copy } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -10,7 +9,7 @@ import { ChatBotAvatar } from "@/components/chat-bot-avatar";
 import { UserAvatar } from "@/components/user-avatar";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
-// import getCurrentUser from "@/lib/session";
+import { useToast } from "@/components/ui/use-toast";
 
 export interface ChatMessageProps {
   role: "system" | "user";
@@ -25,8 +24,20 @@ export const ChatMessage = ({
   isLoading,
   src,
 }: ChatMessageProps) => {
+  const { data: session } = useSession();
+  const { toast } = useToast();
 
-    const {data: session} = useSession()
+  const onCopy = () => {
+    if (!content) {
+      return;
+    }
+
+    navigator.clipboard.writeText(content);
+    toast({
+      description: "Message copied to clipboard.",
+      duration: 3000,
+    });
+  };
   return (
     <div
       className={cn(
@@ -36,7 +47,7 @@ export const ChatMessage = ({
     >
       {role !== "user" && src && <ChatBotAvatar src={src} />}
       <div className="rounded-md px-4 py-2 max-w-sm text-sm bg-primary/10">
-        {isLoading ? <BeatLoader  size={5} /> : content}
+        {isLoading ? <BeatLoader size={5} /> : content}
       </div>
       {role === "user" && (
         <UserAvatar
@@ -46,6 +57,16 @@ export const ChatMessage = ({
           }}
           className="h-8 w-8"
         />
+      )}
+      {role !== "user" && !isLoading && (
+        <Button
+          onClick={onCopy}
+          className="opacity-0 group-hover:opacity-100 transition"
+          size="icon"
+          variant="ghost"
+        >
+          <Copy className="w-4 h-4" />
+        </Button>
       )}
     </div>
   );
