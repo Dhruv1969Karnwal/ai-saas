@@ -3,11 +3,12 @@
 import { ElementRef, useEffect, useRef, useState } from "react";
 import { Companion } from "@prisma/client";
 
+import { ChatMessage } from "@/components/chat-message";
 
 interface ChatMessagesProps {
   messages: any[];
   isLoading: boolean;
-  companion: Companion
+  companion: Companion;
 }
 
 export const ChatMessages = ({
@@ -15,11 +16,18 @@ export const ChatMessages = ({
   isLoading,
   companion,
 }: ChatMessagesProps) => {
-
-
   return (
     <div className="flex-1 overflow-y-auto pr-4">
-        chat messages
+      <ChatMessage
+        src={companion.src}
+        role="system"
+        content={`Hello, I am ${companion.name}, ${companion.description}`}
+      />
+      <ChatMessage
+        // src={companion.src}
+        role="user"
+        content={`Hello, I am ${companion.name}, ${companion.description}`}
+      />
     </div>
   );
 };
