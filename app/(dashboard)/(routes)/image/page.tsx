@@ -7,7 +7,6 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Download, ImageIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 import { Heading } from "@/components/heading";
@@ -20,9 +19,12 @@ import { Empty } from "@/components/ui/empty";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 import { amountOptions, formSchema, resolutionOptions } from "./constants";
+import { useProModal } from "@/hooks/use-pro-modal";
+import { toast } from "@/components/ui/use-toast";
 
 const PhotoPage = () => {
   const router = useRouter();
+  const proModal = useProModal();
   const [photos, setPhotos] = useState<string[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -46,7 +48,14 @@ const PhotoPage = () => {
 
       setPhotos(urls);
     } catch (error: any) {
-      toast.error("Something went wrong.");
+      if (error?.response?.status === 403) {
+        proModal.onOpen();
+      } else {
+        toast({
+          title: "Something went wrong.",
+          description: "Free trial has expired. Please upgrade to pro.",
+        });
+      }
     } finally {
       router.refresh();
     }
