@@ -20,6 +20,8 @@ import { UserAvatar } from "@/components/user-avatar";
 import { Empty } from "@/components/ui/empty";
 import { formSchema } from "./constants";
 import { useSession } from "next-auth/react";
+import { useProModal } from "@/hooks/use-pro-modal";
+import { toast } from "@/components/ui/use-toast";
 
 const ConversationPage =   () => {
 
@@ -27,6 +29,7 @@ const ConversationPage =   () => {
   const { data: session } = useSession()
 
   const router = useRouter();
+  const proModal = useProModal();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -53,10 +56,18 @@ const ConversationPage =   () => {
 
       form.reset();
     } catch (error: any) {
+      if (error?.response?.status === 403) {
+        proModal.onOpen();
+      } else {
+        toast({
+          title: "Something went wrong.",
+          description: "Free trial has expired. Please upgrade to pro.",
+        });
+      }
     } finally {
       router.refresh();
     }
-  };
+  }
 
   return (
     <div>
