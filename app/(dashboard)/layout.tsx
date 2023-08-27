@@ -1,5 +1,5 @@
 import ClientOnly from "@/components/clientOnly";
-import Navbar from "@/components/navbar";
+import  {Navbar}  from "@/components/navbar";
 import { Sidebar } from "@/components/sidebar";
 import { getApiLimitCount } from "@/lib/api-limit";
 import  getCurrentUser  from "@/lib/session"

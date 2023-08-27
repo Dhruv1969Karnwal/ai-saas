@@ -1,6 +1,6 @@
 import { Code, ImageIcon, MessagesSquare, Music, VideoIcon, Plus, MessageSquare, Home } from "lucide-react";
 
-export const MAX_FREE_COUNTS = 5;
+export const MAX_FREE_COUNTS = 10;
 
 interface ConToolItem {
     label: string;
