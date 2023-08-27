@@ -12,7 +12,7 @@ export async  function Navbar({ currentUser }: NavbarProps) {
   const apiLimitCount = await getApiLimitCount();
   return (
     <div className="flex items-center p-4 justify-between">
-      <MobileSidebar apiLimitCount={6} />
+      <MobileSidebar apiLimitCount={apiLimitCount} />
       <NavbarTop currentUser={currentUser} />
     </div>
   );
