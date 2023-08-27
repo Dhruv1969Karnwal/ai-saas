@@ -1,6 +1,7 @@
 import prisma from "@/lib/db";
 import { MAX_FREE_COUNTS } from "@/constants";
 import getCurrentUser from "./session";
+import { redirect } from "next/navigation";
 
 export const incrementApiLimit = async () => {
   const currentUser = await getCurrentUser();

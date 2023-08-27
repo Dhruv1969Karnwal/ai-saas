@@ -17,6 +17,7 @@ const CompanionIdPage = async ({
     const currentUser = await getCurrentUser()
     const userId = currentUser?.userId
 
+
       const userIdType = typeof userId;
 
     if (!userId) {
@@ -26,10 +27,12 @@ const CompanionIdPage = async ({
     const companion = await prisma.companion.findUnique({
       where: {
         id: params.companionId,
-        // ? userId must be added 
-        // userId
-      }
+        // userId,
+        // username_email : { username, email },
+      },
     });
+
+    
     
       const categories = await prisma.category.findMany();
 

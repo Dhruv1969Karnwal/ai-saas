@@ -120,7 +120,11 @@ const AccordionRouteLink: React.FC<AccordionRouteLinkProps> = ({
   </Link>
 );
 
-export const Sidebar: React.FC = () => {
+export const Sidebar = ({
+  apiLimitCount = 0,
+}: {
+  apiLimitCount: number;
+}) => {
   const pathname = usePathname();
 
 

@@ -68,7 +68,7 @@ model Category {
 
 model Companion {
   id           String @id @default(auto()) @map("_id") @db.ObjectId
-  userId       String
+  userId       String @db.ObjectId
   userName     String
   src          String
   name         String @db.String
@@ -102,7 +102,7 @@ model Message {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   companionId String @db.ObjectId
-  userId      String
+  userId      String @db.ObjectId
 
   companion Companion @relation(fields: [companionId], references: [id], onDelete: Cascade)
 
@@ -112,7 +112,7 @@ model Message {
 
 model UserApiLimit {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String   @unique
+  userId    String   @db.ObjectId @unique
   count     Int      @default(0)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
