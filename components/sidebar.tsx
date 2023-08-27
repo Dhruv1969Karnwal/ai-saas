@@ -123,8 +123,10 @@ const AccordionRouteLink: React.FC<AccordionRouteLinkProps> = ({
 
 export const Sidebar = ({
   apiLimitCount = 0,
+  isPro = false
 }: {
   apiLimitCount: number;
+  isPro : boolean
 }) => {
   const pathname = usePathname();
 
@@ -229,6 +231,7 @@ export const Sidebar = ({
         </div>
       </div>
       <FreeCounter 
+      isPro={isPro}
         apiLimitCount={apiLimitCount} 
       />
     </div>

@@ -8,8 +8,10 @@ import { Progress } from "@/components/ui/progress";
 import { useProModal } from "@/hooks/use-pro-modal";
 
 export const FreeCounter = ({
+  isPro = false,
   apiLimitCount = 0,
 }: {
+  isPro: boolean,
   apiLimitCount: number
 }) => {
   const [mounted, setMounted] = useState(false);
@@ -24,6 +26,9 @@ export const FreeCounter = ({
   }
   
 
+  if (isPro) {
+    return null;
+  }
 
   return (
     <div className="px-3">
@@ -35,7 +40,7 @@ export const FreeCounter = ({
             </p>
             <Progress className="h-3" value={(apiLimitCount / MAX_FREE_COUNTS) * 100} />
           </div>
-          <Button  variant="premium" className="w-full" onClick={proModal.onOpen}>
+          <Button onClick={proModal.onOpen} variant="premium" className="w-full">
             Upgrade
             <Zap className="w-4 h-4 ml-2 fill-white" />
           </Button>
