@@ -5,7 +5,6 @@ import axios from "axios";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
 import { FileAudio } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -17,9 +16,12 @@ import { Loader } from "@/components/loader";
 import { Empty } from "@/components/ui/empty";
 
 import { formSchema } from "./constants";
+import { useProModal } from "@/hooks/use-pro-modal";
+import { toast } from "@/components/ui/use-toast";
 
 const VideoPage = () => {
   const router = useRouter();
+  const proModal = useProModal();
   const [video, setVideo] = useState<string>();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -41,13 +43,17 @@ const VideoPage = () => {
       form.reset();
     } catch (error: any) {
       if (error?.response?.status === 403) {
+        proModal.onOpen();
       } else {
-        toast.error("Something went wrong.");
+        toast({
+          title: "Something went wrong.",
+          description: "Free trial has expired. Please upgrade to pro.",
+        });
       }
     } finally {
       router.refresh();
     }
-  };
+  }
 
   return (
     <div>
