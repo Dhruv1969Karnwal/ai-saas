@@ -22,10 +22,13 @@ import { Empty } from "@/components/ui/empty";
 
 import { formSchema } from "./constants";
 import { useSession } from "next-auth/react";
+import { useProModal } from "@/hooks/use-pro-modal";
+import { toast } from "@/components/ui/use-toast";
 
 const CodePage = () => {
   const { data: session } = useSession()
   const router = useRouter();
+  const proModal = useProModal();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -39,21 +42,26 @@ const CodePage = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const userMessage: ChatCompletionRequestMessage = {
-        role: "user",
-        content: values.prompt,
-      };
+      const userMessage: ChatCompletionRequestMessage = { role: "user", content: values.prompt };
       const newMessages = [...messages, userMessage];
-
-      const response = await axios.post("/api/code", { messages: newMessages });
+      
+      const response = await axios.post('/api/code', { messages: newMessages });
       setMessages((current) => [...current, userMessage, response.data]);
-
+      
       form.reset();
     } catch (error: any) {
+      if (error?.response?.status === 403) {
+        proModal.onOpen();
+      } else {
+        toast({
+          title: "Something went wrong.",
+          description: "Free trial has expired. Please upgrade to pro.",
+        });
+      }
     } finally {
       router.refresh();
     }
-  };
+  }
 
   return (
     <div>
