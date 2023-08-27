@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster"
 import SessionProvider from "@/lib/Providers";
+import { ModalProvider } from "@/components/modal-provider";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -23,6 +24,7 @@ export default function RootLayout({
         <SessionProvider>
           {children}
         </SessionProvider>
+          <ModalProvider />
         <Toaster />
       </body>
     </html>
