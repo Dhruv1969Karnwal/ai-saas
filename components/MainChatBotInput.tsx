@@ -1,12 +1,14 @@
 'use client'
 
 import { cn } from '@/lib/utils'
-import { FC, HTMLAttributes} from 'react'
+import { FC, HTMLAttributes, useState} from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
 
 interface ChatInputProps extends HTMLAttributes<HTMLDivElement> {}
 
 const MainChatBotInput: FC<ChatInputProps> = ({ className, ...props }) => {
+
+  const [input, setInput] = useState<string>('')
 
 
   return (
@@ -14,6 +16,8 @@ const MainChatBotInput: FC<ChatInputProps> = ({ className, ...props }) => {
       <div className='relative mt-4 flex-1 overflow-hidden rounded-lg border-none outline-none'>
         <TextareaAutosize
           rows={2}
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
           maxRows={4}
           autoFocus
           placeholder='Write a message...'
