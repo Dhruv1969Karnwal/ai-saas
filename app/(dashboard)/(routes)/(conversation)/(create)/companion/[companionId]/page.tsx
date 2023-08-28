@@ -21,7 +21,7 @@ const CompanionIdPage = async ({
       const userIdType = typeof userId;
 
     if (!userId) {
-      return redirect("/");
+      return redirect("/login");
     }
 
     const companion = await prisma.companion.findUnique({

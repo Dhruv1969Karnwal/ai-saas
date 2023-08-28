@@ -56,6 +56,7 @@ const CodePage = () => {
         toast({
           title: "Something went wrong.",
           description: "Free trial has expired. Please upgrade to pro.",
+          variant: "destructive",
         });
       }
     } finally {

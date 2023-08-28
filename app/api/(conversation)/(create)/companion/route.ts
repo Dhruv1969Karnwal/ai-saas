@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 
 import prisma from "@/lib/db";
 import getCurrentUser from "@/lib/session";
+import { checkApiLimit, incrementApiLimit } from "@/lib/api-limit";
+import { checkSubscription } from "@/lib/subscription";
 
 export async function POST(req: Request) {
   try {
@@ -17,6 +19,12 @@ export async function POST(req: Request) {
       return new NextResponse("Missing required fields", { status: 400 });
     };
 
+    const freeTrial = await checkApiLimit();
+    const isPro = await checkSubscription()
+
+    if (!freeTrial && !isPro) {
+      return new NextResponse("Free trial has expired. Please upgrade to pro.", { status: 403 });
+    }
 
     const companion = await prisma.companion.create({
       data: {
@@ -30,6 +38,10 @@ export async function POST(req: Request) {
         seed,
       }
     });
+
+    if(!isPro){
+      await incrementApiLimit();
+    }
 
     return NextResponse.json(companion);
   } catch (error) {
