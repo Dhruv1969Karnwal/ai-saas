@@ -6,7 +6,9 @@ import {
   AccordionItem,
   AccordionTrigger
 } from './ui/accordion'
-import MainChatBotHeader from './MainChatBotHeader'
+import MainChatBotHeader from '@/components/MainChatBotHeader'
+import { AccordionContent } from '@radix-ui/react-accordion'
+import MainChatBotInput from '@/components/MainChatBotInput'
 
 
 const MainChatBot: FC = () => {
@@ -21,6 +23,12 @@ const MainChatBot: FC = () => {
             <AccordionTrigger className='px-6 border-b border-zinc-300 py-4'>
               <MainChatBotHeader />
             </AccordionTrigger>
+            <AccordionContent>
+              <div className='flex flex-col h-80'>
+                <p>MainChatBotMessages</p>
+                <MainChatBotInput className='px-4' />
+              </div>
+            </AccordionContent>
           </div>
         </div>
       </AccordionItem>
