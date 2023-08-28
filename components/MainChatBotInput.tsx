@@ -13,19 +13,31 @@ const MainChatBotInput: FC<ChatInputProps> = ({ className, ...props }) => {
   const [input, setInput] = useState<string>("");
 
   const { mutate: sendMessage, isLoading } = useMutation({
-    mutationFn: async (_message: Message) => {
+    mutationFn: async (message: Message) => {
       const response = await fetch("/api/message", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ messages: "hello" }),
+        body: JSON.stringify({ messages: [message] }),
       });
 
       return response.body;
     },
-    onSuccess: () => {
+    onSuccess: async (stream) => {
       console.log("success")
+      if (!stream) throw new Error('No stream')
+
+      const reader = stream.getReader()
+      const decoder = new TextDecoder()
+      let done = false
+
+      while (!done) {
+        const { value, done: doneReading } = await reader.read()
+        done = doneReading
+        const chunkValue = decoder.decode(value)
+        console.log(chunkValue)
+      }
     }
   });
 
