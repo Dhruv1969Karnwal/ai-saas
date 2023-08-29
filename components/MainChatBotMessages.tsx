@@ -35,6 +35,7 @@ const MainChatBotMessages: FC<ChatMessagesProps> = ({ className, ...props }) => 
                   'bg-blue-600 text-white': message.isUserMessage,
                   'bg-gray-200 text-gray-900': !message.isUserMessage,
                 })}>
+                  {message.text}
               </p>
             </div>
           </div>
