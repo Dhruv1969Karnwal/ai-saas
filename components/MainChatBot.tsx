@@ -9,6 +9,7 @@ import {
 import MainChatBotHeader from '@/components/MainChatBotHeader'
 import { AccordionContent } from '@radix-ui/react-accordion'
 import MainChatBotInput from '@/components/MainChatBotInput'
+import MainChatBotMessages from '@/components/MainChatBotMessages'
 
 
 const MainChatBot: FC = () => {
@@ -25,7 +26,7 @@ const MainChatBot: FC = () => {
             </AccordionTrigger>
             <AccordionContent>
               <div className='flex flex-col h-80'>
-                <p>MainChatBotMessages</p>
+                <MainChatBotMessages className='px-2 py-3 flex-1' />
                 <MainChatBotInput className='px-4' />
               </div>
             </AccordionContent>
