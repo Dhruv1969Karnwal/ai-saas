@@ -43,10 +43,10 @@ export function UserAuthFormRegister({
 
     try {
       await axios.post("/api/register", data);
-      router.push("/dashboard");
+      router.push("/login");
       return toast({
-        title: "Redirecting to dashboard",
-        description: "We sent you a login link. Be sure to check your spam too.",
+        title: "Redirecting to Login",
+        description: "We sent you a login Page. Please Login to avail more benefits.",
         variant: "success"
       })
     } catch (error) {
