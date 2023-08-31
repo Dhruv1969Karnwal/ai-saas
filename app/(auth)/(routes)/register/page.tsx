@@ -11,10 +11,10 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 
-export const metadata = {
-  title: "Create an account",
-  description: "Create an account to get started.",
-};
+// export const metadata = {
+//   title: "Create an account",
+//   description: "Create an account to get started.",
+// };
 
 const RegisterPage: React.FC = () => {
   const router = useRouter();

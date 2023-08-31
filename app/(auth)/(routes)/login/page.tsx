@@ -11,10 +11,10 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-export const metadata: Metadata = {
-  title: "Login",
-  description: "Login to your account",
-};
+// export const metadata: Metadata = {
+//   title: "Login",
+//   description: "Login to your account",
+// };
 
 const LoginPage: React.FC = () => {
   const router = useRouter();
